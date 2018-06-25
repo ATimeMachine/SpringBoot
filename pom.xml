@@ -51,5 +51,6 @@
 
     <modules>
         <module>scheduling</module>
+        <module>properties</module>
     </modules>
 </project>
