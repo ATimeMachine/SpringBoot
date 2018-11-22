@@ -2,6 +2,7 @@ package com.example.springboot.properties.model;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 /**
@@ -10,8 +11,10 @@ import org.springframework.stereotype.Component;
  * Date:     2018/6/25 14:01
  * Description: 用户的bean
  */
-@Component
-@ConfigurationProperties(prefix = "com.user") //去掉@Value
+@Component //方便其他模块通过@Autowired注入使用
+//@ConfigurationProperties(prefix = "com.user") //加了前缀，可以去掉@Value
+@PropertySource(value = "classpath:my.properties")
+@ConfigurationProperties(prefix = "com.user")
 public class User {
 
     @Value("${com.my.userName}")
@@ -19,8 +22,10 @@ public class User {
     @Value("${com.my.age}")
     private int age;
 
+    //这里去掉了value
     private String address;
 
+    //这里去掉value,并且注入了一个对象
     private Address defaultAddress;
 
     public String getUserName() {

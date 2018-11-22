@@ -14,7 +14,7 @@ import javax.annotation.PostConstruct;
  */  
 @Configuration  
 public class DynamicConfig {  
-    public static final String DYNAMIC_CONFIG_NAME = "dynamic_config";  
+    public static final String DYNAMIC_CONFIG_NAME = "dynamic_config";
   
     @Autowired
     AbstractEnvironment environment;

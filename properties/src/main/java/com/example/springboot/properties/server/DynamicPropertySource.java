@@ -18,11 +18,13 @@ public class DynamicPropertySource extends MapPropertySource {
 
     private static Logger log = LoggerFactory.getLogger(DynamicPropertySource.class);
 
+    //延迟执行线程池
     private static ScheduledExecutorService scheduled = Executors.newScheduledThreadPool(1);
 
     private static Map<String, Object> map = new ConcurrentHashMap<String, Object>(64);
 
     static {
+        //延迟执行线程方法
         scheduled.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
