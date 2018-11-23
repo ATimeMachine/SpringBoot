@@ -3,6 +3,7 @@ package com.example.springboot.properties.web;
 import com.example.springboot.properties.model.User;
 import com.example.springboot.scheduling.service.ITest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
