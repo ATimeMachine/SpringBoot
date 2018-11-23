@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 /**
  * 挎包自动注入，需要添加扫描，详细见{@link com.example.springboot.properties.web.UserController}
+ * 原理，加入到spring 容器中即可
  */
 @ComponentScan(value = {"com.example.springboot.scheduling","com.example.springboot.properties"})
 public class PropertiesApplication {
