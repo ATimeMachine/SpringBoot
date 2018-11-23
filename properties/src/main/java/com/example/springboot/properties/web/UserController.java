@@ -1,6 +1,7 @@
 package com.example.springboot.properties.web;
 
 import com.example.springboot.properties.model.User;
+import com.example.springboot.scheduling.service.ITest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
@@ -22,11 +23,15 @@ public class UserController {
     @Autowired
     Environment environment;//注入获取值
 
+    //挎包注入
+    @Autowired
+    ITest test;
+
     @RequestMapping(value = "/user/{name}", method = RequestMethod.GET)
     @ResponseBody
     public User getUser(@PathVariable("name") String name) {
         System.out.println(name + "----" + user.getUserName());
-
+        user.setUserName(test.getString());
         return user;
     }
 
