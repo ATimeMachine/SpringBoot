@@ -14,9 +14,6 @@ public class PropertiesApplicationTests {
 
 	@Test
 	public void contextLoads() {
-		CallJasper callJasper = new CallJasper();
-		List<Thread> threads = callJasper.creadThread();
-		callJasper.startThread(threads);
 	}
 
 }

@@ -5,6 +5,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -21,17 +22,18 @@ public class CallJasperThreadAspect {
     private ThreadLocal<Long> startTime = new ThreadLocal<>(); // 开始时间
     private ThreadLocal<Long> endTime = new ThreadLocal<>(); // 结束时间
 
-    @Pointcut("@annotation(CallJasperThreadManager)")
+    @Pointcut("@annotation(com.example.springboot.properties.Thread.CallJasperThreadManager)")
     public void annotationPointCut() {
 
     }
 
     @Before("annotationPointCut()")
     public void before(JoinPoint joinPoint){
-
+        System.out.println("------------------------------------------------------------");
         CountDownLatch countDownLatch = new CountDownLatch(1);
         try {
-            CallJasper.queue.put(countDownLatch);
+            ArrayBlockingQueue<CountDownLatch> queue = CallJasper.queue;
+            queue.put(countDownLatch);
             countDownLatch.await();
             startTime.set(System.currentTimeMillis());// 记录方法开始执行的时间
         } catch (InterruptedException e) {
@@ -58,6 +60,5 @@ public class CallJasperThreadAspect {
     public void after() {
         startTime.remove();
         endTime.remove();
-        System.out.println("after方法执行后");
     }
 }

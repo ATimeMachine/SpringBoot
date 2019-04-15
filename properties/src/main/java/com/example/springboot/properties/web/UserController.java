@@ -1,11 +1,17 @@
 package com.example.springboot.properties.web;
 
+import com.example.springboot.properties.Thread.CallJasper;
+import com.example.springboot.properties.Thread.TheadCreate;
 import com.example.springboot.properties.model.User;
 import com.example.springboot.scheduling.service.ITest;
+import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 
 /**
@@ -28,6 +34,9 @@ public class UserController {
     @Autowired
     ITest test;
 
+    @Autowired
+    TheadCreate threadCreate;
+
     @RequestMapping(value = "/user/{name}", method = RequestMethod.GET)
     @ResponseBody
     public User getUser(@PathVariable("name") String name) {
@@ -41,5 +50,21 @@ public class UserController {
     public String getProperties(String properties) {
         System.out.println(properties);
         return environment.getProperty(properties);
+    }
+
+    @RequestMapping(value = "/thead", method = RequestMethod.GET)
+    @ResponseBody
+    public String thead() {
+        threadCreate.create();
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        CountDownLatch countDownLatch = CallJasper.queue.poll();
+        if (countDownLatch != null) {
+            countDownLatch.countDown();
+        }
+        return "1234";
     }
 }
