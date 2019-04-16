@@ -1,6 +1,7 @@
 package com.example.springboot.properties.web;
 
 import com.example.springboot.properties.Thread.CallJasper;
+import com.example.springboot.properties.Thread.CallJasperThreadAspect;
 import com.example.springboot.properties.Thread.TheadCreate;
 import com.example.springboot.properties.model.User;
 import com.example.springboot.scheduling.service.ITest;
@@ -64,7 +65,7 @@ public class UserController {
     @ResponseBody
     public String customer() {
         try {
-            ArrayBlockingQueue<CountDownLatch> queue = CallJasper.queue;
+            ArrayBlockingQueue<CountDownLatch> queue = CallJasperThreadAspect.queue;
             CountDownLatch before = queue.peek();
             Thread.sleep(200);
             CountDownLatch after = queue.peek();

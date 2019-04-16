@@ -21,6 +21,7 @@ import java.util.concurrent.CountDownLatch;
 @Component
 public class CallJasperThreadAspect {
 
+    public static ArrayBlockingQueue<CountDownLatch> queue = new ArrayBlockingQueue<>(1000);
 
     private static final Logger logger = LoggerFactory.getLogger(CallJasperThreadAspect.class);
     // 开始时间
@@ -37,7 +38,7 @@ public class CallJasperThreadAspect {
         System.out.println("------------------------------------------------------------");
         CountDownLatch countDownLatch = new CountDownLatch(1);
         try {
-            ArrayBlockingQueue<CountDownLatch> queue = CallJasper.queue;
+            ArrayBlockingQueue<CountDownLatch> queue = CallJasperThreadAspect.queue;
             queue.put(countDownLatch);
             countDownLatch.await();
             // 记录方法开始执行的时间
@@ -61,7 +62,7 @@ public class CallJasperThreadAspect {
                 time = System.currentTimeMillis() - startTime.get();
                 System.out.println("执行时间：" + time);
             }
-            CountDownLatch countDownLatch = CallJasper.queue.poll();
+            CountDownLatch countDownLatch = CallJasperThreadAspect.queue.poll();
             if (countDownLatch != null) {
                 countDownLatch.countDown();
             }

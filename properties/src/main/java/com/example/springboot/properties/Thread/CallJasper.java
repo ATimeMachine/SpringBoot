@@ -16,7 +16,7 @@ import java.util.concurrent.CountDownLatch;
  */
 @Component
 public class CallJasper {
-    public static ArrayBlockingQueue<CountDownLatch> queue = new ArrayBlockingQueue<>(50);
+
 
 
     @CallJasperThreadManager
