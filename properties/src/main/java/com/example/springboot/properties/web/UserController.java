@@ -11,6 +11,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.CountDownLatch;
 
 
@@ -56,15 +57,31 @@ public class UserController {
     @ResponseBody
     public String thead() {
         threadCreate.create();
+        return "1234";
+    }
+
+    @RequestMapping(value = "/customer", method = RequestMethod.GET)
+    @ResponseBody
+    public String customer() {
         try {
-            Thread.sleep(2000);
+            ArrayBlockingQueue<CountDownLatch> queue = CallJasper.queue;
+            CountDownLatch before = queue.peek();
+            Thread.sleep(200);
+            CountDownLatch after = queue.peek();
+            if (before != null &&  after != null){
+                if (before.equals(after)){
+                    CountDownLatch poll = queue.poll();
+                    if (null != poll){
+                        poll.countDown();
+                    }
+
+                }
+            }
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        CountDownLatch countDownLatch = CallJasper.queue.poll();
-        if (countDownLatch != null) {
-            countDownLatch.countDown();
-        }
-        return "1234";
+
+        return "asdfgh";
     }
 }
