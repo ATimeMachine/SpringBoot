@@ -23,7 +23,7 @@ public class CallJasper {
     public void a(){
         try {
             long start = System.currentTimeMillis();
-            Thread.sleep(1000);
+            Thread.sleep(100);
             long end = System.currentTimeMillis();
             System.out.println(Thread.currentThread().getName() + ":a," + "睡眠时间：" + (end - start));
         } catch (Exception e) {
@@ -35,7 +35,7 @@ public class CallJasper {
     public String b(){
         try {
             long start = System.currentTimeMillis();
-            Thread.sleep(1000);
+            Thread.sleep(100);
             long end = System.currentTimeMillis();
             System.out.println(Thread.currentThread().getName() + ":b+++b," + "睡眠时间：" + (end - start));
             return "b";
@@ -49,7 +49,7 @@ public class CallJasper {
     public void c(int c){
         try {
             long start = System.currentTimeMillis();
-            Thread.sleep(1000);
+            Thread.sleep(100);
             long end = System.currentTimeMillis();
             System.out.println( Thread.currentThread().getName() + ":c-" + c + ",睡眠时间：" + (end - start));
         } catch (Exception e) {
