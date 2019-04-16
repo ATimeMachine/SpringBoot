@@ -65,7 +65,7 @@ public class CallJasperThreadAspect {
             if (countDownLatch != null) {
                 countDownLatch.countDown();
             }
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             logger.error("线程睡眠失败", e);
         }
         startTime.remove();
