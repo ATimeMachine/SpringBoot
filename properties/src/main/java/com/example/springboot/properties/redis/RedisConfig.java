@@ -59,4 +59,20 @@ public class RedisConfig extends CachingConfigurerSupport {
 		redisScript.setResultType(Long.class);
 		return redisScript;
 	}
+
+	@Bean("rateLimitUseIncr2")
+	public DefaultRedisScript<Long> rateLimitUseIncr2() {
+		return new DefaultRedisScript<>(this.getScript(), Long.class);
+	}
+
+	private String getScript() {
+		String script = "local current=0\n" +
+				"current = redis.call(\"incr\",KEYS[1])\n" +
+				"if tonumber(current) == 1 then\n" +
+				"    redis.call(\"expire\",KEYS[1],1)\n" +
+				"end\n" +
+				"\n" +
+				"return current";
+		return script;
+	}
 }
