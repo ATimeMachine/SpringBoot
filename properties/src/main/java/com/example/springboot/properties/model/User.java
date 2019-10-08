@@ -17,9 +17,9 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "com.user")
 public class User {
 
-    @Value("${com.my.userName}")
+    //@Value("${com.my.userName}")
     private String userName;
-    @Value("${com.my.age}")
+    //@Value("${com.my.age}")
     private int age;
 
     //这里去掉了value
