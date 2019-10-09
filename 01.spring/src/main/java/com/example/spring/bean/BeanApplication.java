@@ -15,7 +15,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  * @author:      陈建 <br/>
  * Create:      2019-10-09 18:33 <br/>
  */
-@SpringBootApplication
+
 public class BeanApplication {
 
     public static void main(String[] args) {
