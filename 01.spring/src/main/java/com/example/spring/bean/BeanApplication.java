@@ -19,8 +19,8 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class BeanApplication {
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext run = SpringApplication.run(BeanApplication.class, args);
-        // 返回 IOC 容器，使用注解配置，传入配置类
+        //SpringApplication.run(BeanApplication.class, args);
+        // 返回 IOC 容器，使用注解配置，传入配置类，run方法里面，本身默认就是这个容器
         ApplicationContext context = new AnnotationConfigApplicationContext(WebConfig.class);
         User user = context.getBean(User.class);
         System.out.println(user);
