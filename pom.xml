@@ -54,5 +54,6 @@
         <module>scheduling</module>
         <module>properties</module>
         <module>01.spring</module>
+        <module>02.security</module>
     </modules>
 </project>
