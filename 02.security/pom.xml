@@ -27,10 +27,19 @@
 
         <!-- 1.父文件的依赖仅仅是dependencyManagement，声明作用，要用依赖，还需要引入-->
         <!-- 2.可以到spring boot的官网按需求生产相对于的依赖，可以直接查看-->
-        <dependency>
+       <!-- <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>${spring.mybatis.version}</version>
+        </dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
