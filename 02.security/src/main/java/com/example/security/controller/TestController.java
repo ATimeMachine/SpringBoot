@@ -25,9 +25,9 @@ import java.io.IOException;
 public class TestController {
 
     @GetMapping("hello")
-    public String hello(@RequestParam("i") Integer i,HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String hello(@RequestParam(value = "i",required = false) Integer i,HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (i == 1) {
-            //这个重定向没用，因为用的是RestController
+            //这个重定向没用，因为用的是RestController，直接放回结果:"redirect:result"
             return "redirect:result";
         } else {
             //使用RedirectAttributes暂时不成功

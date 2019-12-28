@@ -11,10 +11,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
-import javax.sql.DataSource;
-
 @Configuration
 public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    UserDetailsServiceImpl userDetailsService;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.formLogin() //  HTTP页面表单方式，有提示错误，会跳转页面 （默认）
@@ -30,6 +32,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                 .tokenRepository(persistentTokenRepository())
                 // remember 过期时间，单为秒
                 .tokenValiditySeconds(3600)
+                .userDetailsService(userDetailsService) // 处理自动登录逻辑
                 //添加功能
                 .and()
                 .authorizeRequests() // 授权配置
