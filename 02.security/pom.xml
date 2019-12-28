@@ -11,6 +11,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <mysql.version>5.1.38</mysql.version>
     </properties>
 
     <parent>
@@ -24,14 +25,26 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
-        <!-- 1.父文件的依赖仅仅是dependencyManagement，声明作用，要用依赖，还需要引入-->
+        <!-- 1.父文件的依赖仅仅是<dependencyManagement>，声明作用，要用依赖，还需要引入-->
         <!-- 2.可以到spring boot的官网按需求生产相对于的依赖，可以直接查看-->
-       <!-- <dependency>
+        <!--连接池-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jdbc</artifactId>
+        </dependency>
+        <!--mybatis 依赖-->
+        <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>${spring.mybatis.version}</version>
-        </dependency>-->
+            <version>2.1.1</version>
+        </dependency>
+        <!--mysql  依赖-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+        <!--权限-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
