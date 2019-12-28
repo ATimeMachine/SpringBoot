@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.security.dao.mapper.base.PersistentLoginsBaseMapper">
+
+
+    <insert id="insertPersistentLogins" >
+        INSERT INTO `persistent_logins`
+        (
+        <trim suffixOverrides=",">
+                    <if test="username!=null">
+                        `username`,
+                    </if>
+                    <if test="series!=null">
+                        `series`,
+                    </if>
+                    <if test="token!=null">
+                        `token`,
+                    </if>
+                    <if test="lastUsed!=null">
+                        `last_used`,
+                    </if>
+        </trim>
+        )
+        VALUES
+        (
+        <trim suffixOverrides=",">
+                <if test="username!=null">
+                    #{username},
+                </if>
+                <if test="series!=null">
+                    #{series},
+                </if>
+                <if test="token!=null">
+                    #{token},
+                </if>
+                <if test="lastUsed!=null">
+                    #{lastUsed},
+                </if>
+        </trim>
+        )
+    </insert>
+
+
+
+
+    <update id="updatePersistentLogins">
+        UPDATE `persistent_logins`
+        SET
+        <trim suffixOverrides=",">
+            <if test="username != null and username!=''">
+                `username` = #{username},
+            </if>
+            <if test="token != null and token!=''">
+                `token` = #{token},
+            </if>
+            <if test="lastUsed != null">
+                `last_used` = #{lastUsed},
+            </if>
+        </trim>
+        WHERE
+        <trim suffixOverrides="and">
+                `series` = #{series} and
+        </trim>
+    </update>
+
+    <update id="update">
+        UPDATE `persistent_logins`
+        SET
+        <trim suffixOverrides=",">
+        <if test="set.username != null and set.username!=''">
+            `username` = #{set.username},
+        </if>
+        <if test="set.token != null and set.token!=''">
+            `token` = #{set.token},
+        </if>
+        <if test="set.lastUsed != null">
+            `last_used` = #{set.lastUsed},
+        </if>
+        </trim>
+        <trim prefix="where" suffixOverrides="and | or">
+                <if test="where.usernameList != null">
+                    `username` in
+                    <foreach collection="where.usernameList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyUsername!=null and where.fuzzyUsername.size()>0">
+                (
+                <foreach collection="where.fuzzyUsername"  separator="or" item="item">
+                    `Username` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyUsername!=null and where.rightFuzzyUsername.size()>0">
+                (
+                <foreach collection="where.rightFuzzyUsername"  separator="or" item="item">
+                    `Username` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+                <if test="where.seriesList != null">
+                    `series` in
+                    <foreach collection="where.seriesList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzySeries!=null and where.fuzzySeries.size()>0">
+                (
+                <foreach collection="where.fuzzySeries"  separator="or" item="item">
+                    `Series` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzySeries!=null and where.rightFuzzySeries.size()>0">
+                (
+                <foreach collection="where.rightFuzzySeries"  separator="or" item="item">
+                    `Series` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+                <if test="where.tokenList != null">
+                    `token` in
+                    <foreach collection="where.tokenList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyToken!=null and where.fuzzyToken.size()>0">
+                (
+                <foreach collection="where.fuzzyToken"  separator="or" item="item">
+                    `Token` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyToken!=null and where.rightFuzzyToken.size()>0">
+                (
+                <foreach collection="where.rightFuzzyToken"  separator="or" item="item">
+                    `Token` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+                <if test="where.lastUsedList != null">
+                    `last_used` in
+                    <foreach collection="where.lastUsedList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.lastUsedSt !=null">
+                `last_used` >= #{where.lastUsedSt} and
+            </if>
+            <if test="where.lastUsedEd!=null">
+                `last_used` &lt;= #{where.lastUsedEd} and
+            </if>
+        </trim>
+    </update>
+
+
+    <resultMap type="com.example.security.dao.model.PersistentLogins" id="PersistentLoginsMap">
+        <result property="username" column="username"/>
+        <result property="series" column="series"/>
+        <result property="token" column="token"/>
+        <result property="lastUsed" column="last_used"/>
+    </resultMap>
+
+
+    <select id="queryPersistentLogins" resultMap="PersistentLoginsMap">
+        select
+        <include refid="baseResult"></include>
+        from  `persistent_logins`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="username != null and username!=''">
+                `username` = #{username} and
+            </if>
+            <if test="series != null and series!=''">
+                `series` = #{series} and
+            </if>
+            <if test="token != null and token!=''">
+                `token` = #{token} and
+            </if>
+            <if test="lastUsed != null">
+                `last_used` = #{lastUsed} and
+            </if>
+            <if test = "(_parameter instanceof com.example.security.dao.model.PersistentLogins$QueryBuilder) == true">
+                <if test="usernameList != null">
+                    `username` in
+                    <foreach collection="usernameList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyUsername!=null and fuzzyUsername.size()>0">
+                    (
+                    <foreach collection="fuzzyUsername"  separator="or" item="item">
+                        `Username` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyUsername!=null and rightFuzzyUsername.size()>0">
+                    (
+                    <foreach collection="rightFuzzyUsername"  separator="or" item="item">
+                        `Username` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="seriesList != null">
+                    `series` in
+                    <foreach collection="seriesList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzySeries!=null and fuzzySeries.size()>0">
+                    (
+                    <foreach collection="fuzzySeries"  separator="or" item="item">
+                        `Series` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzySeries!=null and rightFuzzySeries.size()>0">
+                    (
+                    <foreach collection="rightFuzzySeries"  separator="or" item="item">
+                        `Series` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="tokenList != null">
+                    `token` in
+                    <foreach collection="tokenList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyToken!=null and fuzzyToken.size()>0">
+                    (
+                    <foreach collection="fuzzyToken"  separator="or" item="item">
+                        `Token` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyToken!=null and rightFuzzyToken.size()>0">
+                    (
+                    <foreach collection="rightFuzzyToken"  separator="or" item="item">
+                        `Token` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="lastUsedList != null">
+                    `last_used` in
+                    <foreach collection="lastUsedList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="lastUsedSt !=null">
+                    `last_used` >= #{lastUsedSt} and
+                </if>
+                <if test="lastUsedEd!=null">
+                    `last_used` &lt;= #{lastUsedEd} and
+                </if>
+            </if>
+        </trim>
+    </select>
+
+    <select id="queryPersistentLoginsLimit1" resultMap="PersistentLoginsMap">
+        select
+        <include refid="baseResult"></include>
+        from  `persistent_logins`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="username != null and username!=''">
+                `username` = #{username} and
+            </if>
+            <if test="series != null and series!=''">
+                `series` = #{series} and
+            </if>
+            <if test="token != null and token!=''">
+                `token` = #{token} and
+            </if>
+            <if test="lastUsed != null">
+                `last_used` = #{lastUsed} and
+            </if>
+            <if test = "(_parameter instanceof com.example.security.dao.model.PersistentLogins$QueryBuilder) == true">
+                    <if test="usernameList != null">
+                        `username` in
+                        <foreach collection="usernameList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyUsername!=null and fuzzyUsername.size()>0">
+                    (
+                    <foreach collection="fuzzyUsername"  separator="or" item="item">
+                        `Username` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyUsername!=null and rightFuzzyUsername.size()>0">
+                    (
+                    <foreach collection="rightFuzzyUsername"  separator="or" item="item">
+                        `Username` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                    <if test="seriesList != null">
+                        `series` in
+                        <foreach collection="seriesList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzySeries!=null and fuzzySeries.size()>0">
+                    (
+                    <foreach collection="fuzzySeries"  separator="or" item="item">
+                        `Series` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzySeries!=null and rightFuzzySeries.size()>0">
+                    (
+                    <foreach collection="rightFuzzySeries"  separator="or" item="item">
+                        `Series` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                    <if test="tokenList != null">
+                        `token` in
+                        <foreach collection="tokenList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyToken!=null and fuzzyToken.size()>0">
+                    (
+                    <foreach collection="fuzzyToken"  separator="or" item="item">
+                        `Token` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyToken!=null and rightFuzzyToken.size()>0">
+                    (
+                    <foreach collection="rightFuzzyToken"  separator="or" item="item">
+                        `Token` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                    <if test="lastUsedList != null">
+                        `last_used` in
+                        <foreach collection="lastUsedList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="lastUsedSt !=null">
+                    `last_used` >= #{lastUsedSt} and
+                </if>
+                <if test="lastUsedEd!=null">
+                    `last_used` &lt;= #{lastUsedEd} and
+                </if>
+            </if>
+        </trim>
+        limit 1
+    </select>
+
+    <sql id="allResult">
+        <trim suffixOverrides=",">
+        `username`,
+        `series`,
+        `token`,
+        `last_used`,
+        </trim>
+    </sql>
+
+
+
+    <sql id="baseResult">
+        <trim suffixOverrides=",">
+            <if test = "(_parameter instanceof com.example.security.dao.model.PersistentLogins$QueryBuilder) == true">
+
+                <if test="fetchFields==null">
+                    <include refid="allResult"></include>
+                </if>
+                <if test="fetchFields!=null">
+                    <if test="fetchFields.AllFields !=null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields ==null and fetchFields.fetchFields==null and fetchFields.excludeFields==null and fetchFields.otherFields==null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.fetchFields!=null">
+                    <if test="fetchFields.fetchFields.username==true">
+                        `username`,
+                    </if>
+                    <if test="fetchFields.fetchFields.series==true">
+                        `series`,
+                    </if>
+                    <if test="fetchFields.fetchFields.token==true">
+                        `token`,
+                    </if>
+                    <if test="fetchFields.fetchFields.lastUsed==true">
+                        `last_used`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
+                    <if test="fetchFields.excludeFields.username==null">
+                        `username`,
+                    </if>
+                    <if test="fetchFields.excludeFields.series==null">
+                        `series`,
+                    </if>
+                    <if test="fetchFields.excludeFields.token==null">
+                        `token`,
+                    </if>
+                    <if test="fetchFields.excludeFields.lastUsed==null">
+                        `last_used`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.otherFields!=null and fetchFields.otherFields.size>0">
+                        <foreach collection="fetchFields.otherFields" index="index" item="item" separator=",">
+                        `#{item}`
+                        </foreach>
+                    </if>
+                </if>
+            </if>
+            <if test="(_parameter instanceof com.example.security.dao.model.PersistentLogins$QueryBuilder) == false" >
+                <include refid="allResult"></include>
+            </if>
+
+        </trim>
+    </sql>
+
+
+</mapper>
