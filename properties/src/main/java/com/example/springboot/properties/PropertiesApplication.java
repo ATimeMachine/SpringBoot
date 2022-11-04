@@ -20,7 +20,7 @@ public class PropertiesApplication {
 		System.out.println("当前服务核心数量:" + Runtime.getRuntime().availableProcessors());
 
 		System.out.println("第一次提交");
-		System.out.println("第二次提交");
+		System.out.println("第6次提交");
 		System.out.println("第三次提交");
 		System.out.println("第4次提交");
 		System.out.println("第5次提交");
