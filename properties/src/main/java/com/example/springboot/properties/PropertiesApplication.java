@@ -1,10 +1,7 @@
 package com.example.springboot.properties;
 
-import com.example.springboot.properties.config.SpringConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @SpringBootApplication
 /**
@@ -25,6 +22,7 @@ public class PropertiesApplication {
 		System.out.println("第一次提交");
 		System.out.println("第二次提交");
 		System.out.println("第三次提交");
+		System.out.println("第4次提交");
 
 	}
 }
