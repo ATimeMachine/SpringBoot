@@ -21,5 +21,8 @@ public class PropertiesApplication {
 		System.out.println("当前可用内存大小:"+ Runtime.getRuntime().freeMemory() / (1 * 1024 * 1024) + " M");
 		System.out.println("可分配总内存大小:"+ Runtime.getRuntime().maxMemory() / (1 * 1024 * 1024) + " M");
 		System.out.println("当前服务核心数量:" + Runtime.getRuntime().availableProcessors());
+
+		System.out.println("第一次提交");
+
 	}
 }
